@@ -1,4 +1,3 @@
-# Test in Python console or create test_image_loading.py
 from mongodb_client import db_client
 from wardrobe_database import WardrobeDatabase
 
