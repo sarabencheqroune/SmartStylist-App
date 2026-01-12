@@ -16,3 +16,4 @@ if items:
             print(f"✅ Image loaded: {len(image_data)} characters")
         except Exception as e:
             print(f"❌ Failed to load image: {e}")
+
