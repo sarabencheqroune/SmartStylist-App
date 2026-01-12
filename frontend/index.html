@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartStylist · AI Fashion Luxury</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500&family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css">
+  
+</head>
+<body>
+
+  <div class="page">
+
+    <!-- HEADER -->
+    <header class="header container">
+      <div class="header-content">
+        <a class="brand" href="#">
+          <i class="fas fa-crown"></i> SmartStylist
+        </a>
+        <nav class="nav">
+          <a href="#upload"><i class="fas fa-cloud-upload-alt"></i> Upload</a>
+          <a href="#generate"><i class="fas fa-magic"></i> Generate</a>
+          <a href="#wardrobe"><i class="fas fa-tshirt"></i> Wardrobe</a>
+          <a href="#result"><i class="fas fa-star"></i> Results</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero container">
+      <div class="hero-left">
+        <div class="hero-badge">
+          <i class="fas fa-gem"></i> Luxury
+        </div>
+        <h1 class="title">Reveal your <span class="highlight">unique style</span> 🌸</h1>
+        <p class="subtitle">Our expert analyzes your clothes and creates personalized outfits.</p>
+        <a class="btn primary" href="#upload">
+          <i class="fas fa-wand-magic-sparkles"></i> Try for free
+        </a>
+      </div>
+    </section>
+
+    <!-- UPLOAD -->
+    <section id="upload" class="section container">
+      <div class="section-header">
+        <h2 class="section-title">
+          <i class="fas fa-cloud-upload-alt"></i> Upload your garment
+        </h2>
+        <p class="section-subtitle">Supported formats: JPG, PNG, WEBP • Max 10MB</p>
+      </div>
+
+      <div id="dropzone" class="dropzone" tabindex="0" aria-label="File upload dropzone">
+        <div class="drop-inner">
+          <div class="upload-icon">
+            <i class="fas fa-cloud-upload"></i>
+          </div>
+
+          <p class="upload-text">Drag & drop your image here</p>
+          <p class="upload-subtext">or</p>
+
+          <button id="chooseBtn" class="btn secondary" type="button">
+            <i class="fas fa-folder-open"></i> Browse files
+          </button>
+
+          <input
+            id="fileinput"
+            type="file"
+            accept="image/*"
+            multiple
+            hidden
+          />
+        </div>
+      </div>
+
+      <div id="preview" class="preview" aria-live="polite">
+        <div id="preview-empty" class="preview-empty">
+          <i class="fas fa-images"></i>
+          <p>No files selected yet</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- WARDROBE -->
+    <section id="wardrobe" class="section container">
+      <div class="section-header">
+        <h2 class="section-title">
+          <i class="fas fa-tshirt"></i> Your Wardrobe
+        </h2>
+        <div class="section-subtitle" style="display: flex; justify-content: space-between; align-items: center;">
+          <span id="wardrobe-stats">0 items • 0 categories</span>
+          <button id="refresh-wardrobe" class="btn small">
+            <i class="fas fa-sync-alt"></i> Refresh
+          </button>
+        </div>
+      </div>
+
+      <div id="category-filter" class="category-filter">
+        <button class="filter-btn active" data-category="all">
+          <i class="fas fa-layer-group"></i>
+          <span>All Items</span>
+        </button>
+        <!-- Categories will be added by JavaScript -->
+      </div>
+
+      <div id="wardrobe-empty" class="empty-state" style="display: block;">
+        <i class="fas fa-tshirt fa-3x"></i>
+        <h3>Your wardrobe is empty</h3>
+        <p>Upload some clothing items to get started!</p>
+      </div>
+
+      <div id="wardrobe" class="wardrobe-grid"></div>
+    </section>
+
+    <!-- GENERATE -->
+    <section id="generate" class="section container">
+      <div class="section-header">
+        <h2 class="section-title">
+          <i class="fas fa-magic"></i> Generate luxury outfits
+        </h2>
+        <p class="section-subtitle">Customize by occasion and city</p>
+      </div>
+
+      <form id="generate-form" class="generate-form">
+        <div class="form-group">
+          <label for="occasion">
+            <i class="fas fa-calendar-star"></i> Occasion
+          </label>
+          <input
+            type="text"
+            id="occasion"
+            list="occasion-options"
+            placeholder="Choose or type an occasion"
+            required
+            value="casual day"
+          />
+          <datalist id="occasion-options">
+            <option value="casual day">
+            <option value="business meeting">
+            <option value="office day">
+            <option value="date night">
+            <option value="wedding">
+            <option value="party">
+            <option value="formal event">
+            <option value="summer day">
+            <option value="winter day">
+            <option value="travel / airport">
+          </datalist>
+        </div>
+
+        <div class="form-group">
+          <label for="city">
+            <i class="fas fa-city"></i> City
+          </label>
+          <input
+            type="text"
+            id="city"
+            placeholder="e.g., Paris, Tokyo, New York"
+            required
+            value="London"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="focus-item">
+            <i class="fas fa-star"></i> Focus Item (Optional)
+          </label>
+          <select id="focus-item">
+            <option value="">None (Generate random outfits)</option>
+            <!-- Will be populated by JavaScript -->
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="num-outfits">
+            <i class="fas fa-layer-group"></i> Number of Outfits
+          </label>
+          <div class="slider-container">
+            <input 
+              type="range" 
+              id="num-outfits" 
+              min="1" 
+              max="10" 
+              value="3"
+            >
+            <span id="num-outfits-value">3</span>
+          </div>
+        </div>
+
+        <button id="generateBtn" class="btn primary" type="submit">
+          <i class="fas fa-wand-sparkles"></i> Create my outfits
+        </button>
+      </form>
+
+      <div id="weather-preview" class="weather-preview"></div>
+      <div id="weather-display" class="weather-display" style="display: none;"></div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="result" class="section container">
+      <div class="section-header">
+        <h2 class="section-title">
+          <i class="fas fa-star"></i> Generated Outfits
+        </h2>
+        <p class="section-subtitle">AI-powered fashion recommendations</p>
+      </div>
+
+      <div id="results-placeholder" class="empty-state">
+        <i class="fas fa-magic fa-3x"></i>
+        <h3>No outfits generated yet</h3>
+        <p>Fill out the form above to generate your first outfits!</p>
+      </div>
+
+      <div id="outfits-grid" class="outfits-grid"></div>
+      
+      <div id="save-outfits-container" style="margin-top: 30px; text-align: center;">
+        <button id="save-all-outfits" class="btn primary">
+          <i class="fas fa-save"></i> Save All Outfits to History
+        </button>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer container">
+      <p>© 2024 SmartStylist • Luxury • Made with ❤️</p>
+    </footer>
+
+  </div>
+
+  <!-- LOADING MODAL -->
+  <div id="loading-modal" class="loading-modal" style="display: none;">
+    <div class="loading-content">
+      <div class="loading-spinner">
+        <i class="fas fa-spinner fa-spin fa-3x"></i>
+      </div>
+      <h3 id="loading-title">Processing</h3>
+      <p id="loading-message">Please wait...</p>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="app.js"></script>
+</body>
+</html>
