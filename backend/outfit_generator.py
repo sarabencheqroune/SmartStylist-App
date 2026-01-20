@@ -70,7 +70,7 @@ class GenerationContext:
 
 
 # -----------------------------
-# Optional Gemini helper (enhanced)
+# Optional Gemini helper 
 # -----------------------------
 
 def _enhanced_gemini_refine(outfits: List[Dict[str, Any]], occasion: str, 
