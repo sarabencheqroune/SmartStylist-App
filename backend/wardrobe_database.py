@@ -97,7 +97,6 @@ class WardrobeDatabase:
     def get_items_by_category(self, category: str, user_id: str = "anonymous") -> List[Dict[str, Any]]:
         """Get items filtered by category.
         
-        FIX: Now uses normalize_category() for consistent matching.
         """
         items = self.get_user_items(user_id)
         normalized_target = normalize_category(category)
