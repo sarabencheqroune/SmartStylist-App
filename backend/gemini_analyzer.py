@@ -49,7 +49,6 @@ KEYWORDS = {
     "shirt": ["shirt", "tshirt", "t-shirt", "tee", "top", "blouse", "chemise"]
 }
 
-# Normalize frequent variants to your VALID_CATEGORIES
 CATEGORY_MAP = {
     "shoe": "shoes",
     "sneakers": "shoes",
@@ -73,7 +72,6 @@ def _normalize_text(s: str) -> str:
 # ==========================
 # Better color detection (HSV-ish rules, still light)
 # ==========================
-# In gemini_analyzer.py, update the _dominant_color function:
 def _dominant_color(image_path: str) -> str:
     """Returns a robust coarse color name using average RGB + simple heuristics."""
     try:
@@ -131,7 +129,7 @@ def _infer_formality_from_text(text: str) -> str:
 
 
 # ==========================
-# GENERATIVE ANALYSIS (LLM = helper, not judge)
+# GENERATIVE ANALYSIS (LLM)
 # ==========================
 def analyze_clothing_image(image_path: str, user_description: str) -> Dict[str, Any]:
     filename = os.path.basename(image_path).lower()
