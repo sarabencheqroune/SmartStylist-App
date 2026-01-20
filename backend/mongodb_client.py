@@ -156,7 +156,7 @@ class MongoDBClient:
                 f.write(image_bytes)
             return f"local:{filename}"
         
-        if self._fs is None:  # FIX: Check if fs is not None
+        if self._fs is None: 
             raise Exception("GridFS not initialized")
             
         metadata = {
@@ -170,11 +170,10 @@ class MongoDBClient:
     def get_image(self, file_id: str) -> Tuple[bytes, Dict[str, Any]]:
         """Retrieve image and metadata from GridFS."""
         if self._mode == "local":
-            # In local mode, file_id is either "local:<name>" or a path.
             name = str(file_id)
             if name.startswith("local:"):
                 name = name.split(":", 1)[1]
-            # Try both backend/uploads and absolute/relative paths
+        
             candidates = [
                 os.path.join(os.path.dirname(__file__), "uploads", name),
                 name,
@@ -188,7 +187,7 @@ class MongoDBClient:
                     continue
             raise Exception("Image not found in local store")
         
-        if self._fs is None:  # FIX: Check if fs is not None
+        if self._fs is None:  
             raise Exception("GridFS not initialized")
             
         try:
@@ -212,7 +211,7 @@ class MongoDBClient:
         if self._mode == "local":
             return False
         
-        if self._fs is None:  # FIX: Check if fs is not None
+        if self._fs is None:  
             return False
             
         try:
@@ -236,7 +235,7 @@ class MongoDBClient:
             self._save_local(data)
             return item_id
 
-        if self._db is None:  # FIX: Check if db is not None
+        if self._db is None:  
             raise Exception("Database not initialized")
             
         doc["created_at"] = datetime.utcnow()
@@ -262,7 +261,7 @@ class MongoDBClient:
                 self._save_local(data)
             return changed
 
-        if self._db is None:  # FIX: Check if db is not None
+        if self._db is None:  
             raise Exception("Database not initialized")
             
         updates["updated_at"] = datetime.utcnow()
@@ -290,7 +289,7 @@ class MongoDBClient:
                     return doc
             return None
 
-        if self._db is None:  # FIX: Check if db is not None
+        if self._db is None:  
             return None
             
         coll = self._db[self._config.wardrobe_collection]
@@ -315,7 +314,7 @@ class MongoDBClient:
             items = sorted(items, key=lambda d: str(d.get("created_at", "")), reverse=True)
             return items[skip:skip + limit]
 
-        if self._db is None:  # FIX: Check if db is not None
+        if self._db is None:  
             return []
             
         coll = self._db[self._config.wardrobe_collection]
@@ -348,7 +347,7 @@ class MongoDBClient:
             items = sorted(items, key=lambda d: str(d.get("created_at", "")), reverse=True)
             return items[skip:skip + limit]
 
-        if self._db is None:  # FIX: Check if db is not None
+        if self._db is None:  
             return []
             
         coll = self._db[self._config.wardrobe_collection]
@@ -386,7 +385,7 @@ class MongoDBClient:
                 result[category] = result.get(category, 0) + 1
             return result
 
-        if self._db is None:  # FIX: Check if db is not None
+        if self._db is None: 
             return {}
             
         coll = self._db[self._config.wardrobe_collection]
@@ -514,7 +513,7 @@ class MongoDBClient:
             outfits = sorted(outfits, key=lambda d: str(d.get(sort_by, "")), reverse=(sort_order == -1))
             return outfits[skip:skip + limit]
 
-        if self._db is None:  # FIX: Check if db is not None
+        if self._db is None:  
             return []
             
         coll = self._db[self._config.outfit_history_collection]
@@ -550,7 +549,7 @@ class MongoDBClient:
                     return o
             return None
 
-        if self._db is None:  # FIX: Check if db is not None
+        if self._db is None: 
             return None
             
         coll = self._db[self._config.outfit_history_collection]
@@ -592,7 +591,7 @@ class MongoDBClient:
                 self._save_local(data)
             return changed
 
-        if self._db is None:  # FIX: Check if db is not None
+        if self._db is None:  
             return False
             
         coll = self._db[self._config.outfit_history_collection]
@@ -626,7 +625,7 @@ class MongoDBClient:
                 self._save_local(data)
             return changed
         
-        if self._db is None:  # FIX: Check if db is not None
+        if self._db is None:  
             return False
             
         coll = self._db[self._config.outfit_history_collection]
@@ -660,7 +659,7 @@ class MongoDBClient:
             outfits = sorted(outfits, key=lambda d: str(d.get("generated_at", "")), reverse=True)
             return outfits[:limit]
         
-        if self._db is None:  # FIX: Check if db is not None
+        if self._db is None: 
             return []
             
         coll = self._db[self._config.outfit_history_collection]
@@ -691,7 +690,7 @@ class MongoDBClient:
     def get_outfits_containing_item(self, item_id: str, user_id: str, 
                                    limit: int = 50) -> List[Dict[str, Any]]:
         """Get all outfits that contain a specific wardrobe item."""
-        if self._db is None:  # FIX: Check if db is not None
+        if self._db is None:  
             return []
             
         coll = self._db[self._config.outfit_history_collection]
@@ -713,7 +712,7 @@ class MongoDBClient:
     
     def delete_outfit(self, outfit_id: str, user_id: str) -> bool:
         """Delete an outfit from history."""
-        if self._db is None:  # FIX: Check if db is not None
+        if self._db is None:  
             return False
             
         coll = self._db[self._config.outfit_history_collection]
@@ -729,7 +728,7 @@ class MongoDBClient:
     
     def create_user(self, user_data: Dict[str, Any]) -> str:
         """Create a new user."""
-        if self._db is None:  # FIX: Check if db is not None
+        if self._db is None:  
             raise Exception("Database not initialized")
             
         coll = self._db[self._config.users_collection]
@@ -742,7 +741,7 @@ class MongoDBClient:
     
     def get_user(self, user_id: str) -> Optional[Dict[str, Any]]:
         """Get user by ID."""
-        if self._db is None:  # FIX: Check if db is not None
+        if self._db is None:  
             return None
             
         coll = self._db[self._config.users_collection]
@@ -754,7 +753,7 @@ class MongoDBClient:
     
     def get_user_by_email(self, email: str) -> Optional[Dict[str, Any]]:
         """Get user by email."""
-        if self._db is None:  # FIX: Check if db is not None
+        if self._db is None: 
             return None
             
         coll = self._db[self._config.users_collection]
@@ -766,7 +765,7 @@ class MongoDBClient:
     
     def update_user(self, user_id: str, updates: Dict[str, Any]) -> bool:
         """Update user information."""
-        if self._db is None:  # FIX: Check if db is not None
+        if self._db is None:  
             return False
             
         coll = self._db[self._config.users_collection]
@@ -809,7 +808,7 @@ class MongoDBClient:
                 }
             }
 
-        if self._db is None:  # FIX: Check if db is not None
+        if self._db is None:  
             return {"wardrobe": {"total_items": 0, "by_category": {}}, 
                     "outfits": {"total_generated": 0, "favorites": 0, "most_used_items": []}}
             
@@ -897,19 +896,16 @@ def get_outfit_by_id(outfit_id: str) -> Optional[Dict[str, Any]]:
     return db_client.get_outfit_by_id(outfit_id)
 
 def update_outfit_feedback(outfit_id: str, feedback_updates: Dict[str, Any]) -> bool:
-    # Note: This legacy function doesn't have user_id, using "anonymous"
     return db_client.update_outfit_feedback(outfit_id, "anonymous", feedback_updates)
 
 def add_outfit_tag(outfit_id: str, tag: str) -> bool:
-    # Note: This legacy function doesn't have user_id, using "anonymous"
     return db_client.add_outfit_tag(outfit_id, "anonymous", tag)
 
 def get_favorite_outfits(user_id: Optional[str] = None, limit: int = 20) -> List[Dict[str, Any]]:
     if not user_id:
         user_id = "anonymous"
     return db_client.get_favorite_outfits(user_id, limit)
-# Add debug logging to _init_client() method:
-
+    
 def _init_client(self):
     """Initialize MongoDB connection (preferred) or fall back to a local JSON store."""
     config = DatabaseConfig()
@@ -919,7 +915,7 @@ def _init_client(self):
     print(f"🔧 Database name: {config.db_name}")
     
     try:
-        # Try MongoDB with timeout
+        # MongoDB with timeout
         self._client = MongoClient(config.uri, serverSelectionTimeoutMS=3000)  # Increased timeout
         self._client.admin.command("ping")
         self._db = self._client[config.db_name]
