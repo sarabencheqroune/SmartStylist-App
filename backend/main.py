@@ -18,7 +18,6 @@ def add_clothing_to_wardrobe(image_path: str, user_description: str, user_id: st
     """Analyze + store item (MongoDB mandatory) and return stored document info."""
     analysis = analyze_clothing_image(image_path, user_description)
     
-    # FIX: Call add_clothing_item with correct parameters
     item_id = wardrobe_db.add_clothing_item(
         image_path=image_path,
         description=user_description,
